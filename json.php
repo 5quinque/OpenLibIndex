@@ -9,7 +9,20 @@ class JSON {
     $this->db = $dbo;
   }
 
-  public function readJSON() {
+  public function readDescriptionJSON() {
+    while (($line = fgets($this->handle)) !== false) {
+      $json = json_decode($line, true);
+
+      if (!isset($json["description"]["value"]) || !isset($json["key"])) {
+        continue;
+      }
+
+      $this->db
+    }
+    fclose($this->handle);
+  }
+
+  public function readDumpJSON() {
     $book = false;
     while (($line = fgets($this->handle)) !== false) {
       $json = json_decode($line, true);

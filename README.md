@@ -21,7 +21,20 @@ grep '^{"description":' dump.json > descriptions.json
 ## Running
 
 ```bash
-php run.php
+Usage: php run.php [OPTIONS] filename
+
+Options:
+-d, --description               Parse a description JSON file
+```
+
+Example
+
+```bash
+php run.php dump.json
+```
+
+```bash
+php run.php -d descriptions.json
 ```
 
 ## Dependencies

@@ -3,8 +3,8 @@
 class DBO {
   public function __construct() {
     $dbhost="localhost";
-    $dbname="";
-    $dbuser="";
+    $dbname="whatboox";
+    $dbuser="whatboox";
     $dbpass="";
     
     try {
@@ -17,7 +17,6 @@ class DBO {
         throw new \PDOException("Error connecting to database.");
     }
 
-    $this->prepareStatements();
   }
 
   public function prepareStatements() {
@@ -84,5 +83,12 @@ class DBO {
     $this->authorind_stmt = $this->handle->prepare("INSERT INTO author_index VALUES(:bid, :author_key)");
     $this->authorind_stmt->bindParam(":bid", $this->authorind_bid);
     $this->authorind_stmt->bindParam(":author_key", $this->authorind_key);
+  }
+  public function prepareDescIns() {
+    $this->description_bid = 0;
+    $this->description_subject = "";
+    $this->description_stmt = $this->handle->prepare("INSERT INTO description VALUES(NULL, :bid, :description)");
+    $this->description_stmt->bindParam(":bid", $this->description_bid);
+    $this->description_stmt->bindParam(":description", $this->description_subject);
   }
 }
