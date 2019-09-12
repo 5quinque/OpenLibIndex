@@ -13,65 +13,63 @@ class JSON {
     $book = false;
     while (($line = fgets($this->handle)) !== false) {
       $json = json_decode($line, true);
-      // We only want books with an ISBN
-      if (!isset($json["isbn_10"]) && !isset($json["isbn_13"])) {
+
+      if (!$this->isValidBook($json)) {
         continue;
       }
 
-      if (!isset($json["title"])) {
-        continue;
-      }
-      if (!isset($json["authors"]) && !isset($json["by_statement"])) {
-        continue;
-      }
-
-      $book = new Book();
+      $book = new Book($this->db);
       $book->setValues($json);
 
-      echo "----------------------\n";
-      echo "Title: {$book->title}\n";// - {$book->isbn_10}\n";
-      #if (!empty($book->by_statement)) {
-      #  echo "By: {$book->by_statement}\n";
-      #}
-      if (is_array($book->authors)) {
-        foreach($book->authors as $author) {
-          var_dump($author);
-          //echo "ISBN 10: {$isbn_10}\n";
+      $book->addRecord();
+      
+      if (is_array($book->isbn_10)) {
+        foreach($book->isbn_10 as $isbn_10) {
+          $book->addISBN($isbn_10, "isbn_10");
         }
       }
-      #if (is_array($book->isbn_10)) {
-      #  foreach($book->isbn_10 as $isbn_10) {
-      #    echo "ISBN 10: {$isbn_10}\n";
-      #  }
-      #}
-      #if (is_array($book->isbn_13)) {
-      #  foreach($book->isbn_13 as $isbn_13) {
-      #    echo "ISBN 13: {$isbn_13}\n";
-      #  }
-      #}
+      if (is_array($book->isbn_13)) {
+        foreach($book->isbn_13 as $isbn_13) {
+          $book->addISBN($isbn_13, "isbn_13");
+        }
+      }
+      if (is_array($book->authors)) {
+        foreach($book->authors as $author) {
+          $book->addAuthorIndex($author["key"]);
+        }
+      }
 
-      #if (is_array($book->covers)) {
-      #  foreach($book->covers as $cover) {
-      #    echo "Cover: {$cover}\n";
-      #  }
-      #}
-      #if (!empty($book->publish_date)) {
-      #  echo "Publish Date: {$book->publish_date}\n";
-      #}
-      #$stmt->execute();
+      if (is_array($book->covers)) {
+        foreach($book->covers as $cover) {
+          $book->addCover($cover);
+        }
+      }
 
-      #$wid = $db->lastInsertId();
-
-      #if (isset($json["subjects"])) {
-      #  $subjects = $json["subjects"];
-      #  foreach($subjects as $subject) {
-      #    $subject_stmt->execute();
-      #  }
-      #}
-      echo "----------------------\n";
+      if (is_array($book->subjects)) {
+        foreach($book->subjects as $subject) {
+          $book->addSubject($subject);
+        }
+      }
 
     }
     fclose($this->handle);
   }
+
+  // Does the book have the values we want?
+  public function isValidBook($json) {
+    if (!isset($json["isbn_10"]) && !isset($json["isbn_13"])) {
+      return false;
+    }
+
+    if (!isset($json["title"])) {
+      return false;
+    }
+    if (!isset($json["authors"]) && !isset($json["by_statement"])) {
+      return false;
+    }
+
+    return true;
+  }
+
 }
 

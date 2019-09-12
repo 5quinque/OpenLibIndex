@@ -30,7 +30,7 @@ CREATE TABLE `identifiers` (
 );
 CREATE TABLE `author_index` (
   `bid` int(11) NOT NULL,
-  `aid` int(11) NOT NULL,
+  `author_key` varchar(24) NOT NULL,
 );
 CREATE TABLE `authors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,7 +40,7 @@ CREATE TABLE `authors` (
 );
 CREATE TABLE `subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `wid` int(11),
+  `bid` int(11),
   `subject` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 );

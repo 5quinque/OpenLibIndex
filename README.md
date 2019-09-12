@@ -12,6 +12,12 @@ gunzip ol_dump_latest.txt.gz
 awk -F $'\t' '{print $5}' ol_dump_latest.txt > dump.json
 ```
 
+## Get descriptions from JSON
+
+```bash
+grep '^{"description":' dump.json > descriptions.json
+```
+
 ## Running
 
 ```bash

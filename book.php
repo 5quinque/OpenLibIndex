@@ -1,7 +1,8 @@
 <?php
 
 class Book {
-  public function __construct() {
+  public function __construct($db) {
+    $this->id = 0;
     $this->title = "";
     $this->subtitle = "";
     $this->numbers_of_pages = "";
@@ -15,7 +16,55 @@ class Book {
     $this->subjects = "";
     $this->works = "";
     $this->identifiers = "";
+
+    $this->db = $db;
   }
+
+  public function addRecord() {
+    $this->db->book_title = $this->title;
+    $this->db->book_subtitle = $this->subtitle;
+    $this->db->book_numbers_of_pages = $this->numbers_of_pages;
+    $this->db->book_key = $this->key;
+    $this->db->book_publish_date = $this->publish_date;
+    $this->db->book_by_statement = $this->by_statement;
+
+    $this->db->book_stmt->execute();
+    $bid = $this->db->lastInsertId();
+
+    $this->id = $bid;
+
+    return $bid;
+  }
+
+  public function addISBN($isbn, $format) {
+    $this->db->isbn_bid = $this->id;
+    $this->db->isbn_isbn = $isbn;
+    $this->db->isbn_format = $format;
+
+    $this->db->isbn_stmt->execute();
+  }
+
+  public function addCover($cover) {
+    $this->db->cover_bid = $this->id;
+    $this->db->cover_cover = $cover;
+
+    $this->db->cover_stmt->execute();
+  }
+
+  public function addSubject($subject) {
+    $this->db->subject_bid = $this->id;
+    $this->db->subject_subject = $subject;
+
+    $this->db->subject_stmt->execute();
+  }
+
+  public function addAuthorIndex($key) {
+    $this->db->authorind_bid = $this->id;
+    $this->db->authorind_key = $key;
+
+    $this->db->authorind_stmt->execute();
+  }
+
   public function setValues($json) {
       if (isset($json["title"])) {
         $this->title =            $json["title"];
