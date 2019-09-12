@@ -29,7 +29,7 @@ class Book {
     $this->db->book_by_statement = $this->by_statement;
 
     $this->db->book_stmt->execute();
-    $bid = $this->db->lastInsertId();
+    $bid = $this->db->handle->lastInsertId();
 
     $this->id = $bid;
 

@@ -29,6 +29,11 @@ php run.php
  - php7
  - php-json
 
+### ToDo
+
+ - Add a description table and parse `descriptions.json`
+ - Be able to run multiple times without creating duplicate rows
+
 ## License
 
     Copyright (C) 2019 Linnit

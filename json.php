@@ -41,7 +41,9 @@ class JSON {
 
       if (is_array($book->covers)) {
         foreach($book->covers as $cover) {
-          $book->addCover($cover);
+          if (!empty($cover)) {
+            $book->addCover($cover);
+          }
         }
       }
 
