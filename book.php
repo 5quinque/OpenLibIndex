@@ -1,7 +1,7 @@
 <?php
 
 class Book {
-  public function __construct($db) {
+  public function __construct($db, $key = false) {
     $this->id = 0;
     $this->title = "";
     $this->subtitle = "";
@@ -18,6 +18,20 @@ class Book {
     $this->identifiers = "";
 
     $this->db = $db;
+
+    if ($key) {
+      $this->findBook($key);
+    }
+  }
+
+  public function findBook($key) {
+    $this->db->prepareSearch();
+    $this->db->search_key = $key;
+    $this->db->search_stmt->execute();
+
+    $row = $this->db->search_stmt->fetch();
+
+    var_dump($row);
   }
 
   public function addRecord() {

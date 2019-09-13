@@ -28,6 +28,12 @@ class DBO {
     $this->prepareAuthorIndIns();
   }
 
+  public function prepareSearch() {
+    $this->search_key = "";
+    $this->search_stmt = $this->handle->prepare("SELECT id FROM book WHERE `key`=:key");
+    $this->search_stmt->bindParam(":key", $this->search_key);
+  }
+
   public function prepareBookIns() {
     $this->book_title = "";
     $this->book_subtitle = "";

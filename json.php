@@ -10,14 +10,18 @@ class JSON {
   }
 
   public function readDescriptionJSON() {
+    $book = false;
     while (($line = fgets($this->handle)) !== false) {
       $json = json_decode($line, true);
 
       if (!isset($json["description"]["value"]) || !isset($json["key"])) {
         continue;
       }
-
-      $this->db
+      echo "{$json['key']}\n";
+      #$book = new Book($this->db, $json["key"]); 
+      #if (!empty($this->book->id)) {
+      #  exit;
+      #}
     }
     fclose($this->handle);
   }
