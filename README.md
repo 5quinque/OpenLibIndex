@@ -44,7 +44,9 @@ php run.php -d descriptions.json
 
 ### ToDo
 
- - Add a description table and parse `descriptions.json`
+ - Description table
+ - Add 'works' column/table
+ - identifiers doesn't work
  - Be able to run multiple times without creating duplicate rows
 
 ## License

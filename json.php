@@ -73,6 +73,23 @@ class JSON
                     $book->addSubject($subject);
                 }
             }
+
+            // Example
+            // "identifiers": {"goodreads": ["1980604"], "librarything": ["17695"]}
+            if (is_array($book->identifiers)) {
+                foreach ($book->identifiers as $ident) {
+                    $book->addIdentity($site, $ident);
+                }
+            }
+
+            // Example
+            // "works": [{"key": "/works/OL2172528W"}]
+            if (is_array($book->works)) {
+                foreach ($book->works as $work) {
+                    $book->addWork($work);
+                }
+            }
+
         }
         fclose($this->handle);
     }
